@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link ret="stylesheet" href="../static/default.css">
+</head>
+<body>
+    <div>
+        <h1>Sogne</h1>
+        <h1 th:text="${parishes.size()}"></h1>
+    </div>
+    <div>
+        <table class="main_table" th:if="${parishes.size()>0}">
+            <tr th:each="parish : ${parishes}">
+                <th th:text="${parish.getName()}"></th>
+                <th th:text="${parish.getCommune()}"></th>
+                <th><input type="checkbox"></th>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>
