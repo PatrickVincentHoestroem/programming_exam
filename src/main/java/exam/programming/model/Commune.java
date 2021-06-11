@@ -1,6 +1,7 @@
 package exam.programming.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import exam.programming.web.CommuneDto;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -18,6 +19,10 @@ public class Commune {
     private Set<Parish> parishes;
 
     public Commune() {}
+
+    public Commune(CommuneDto communeDto) {
+        this.name = communeDto.getName();
+    }
 
     public Commune(int id, String name) {
         this.id = id;

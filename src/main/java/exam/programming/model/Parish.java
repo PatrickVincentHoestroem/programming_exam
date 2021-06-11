@@ -21,11 +21,11 @@ public class Parish {
 
     public Parish() {}
 
-    public Parish(ParishDto p, Commune commune) {
+    public Parish(ParishDto p, LocalDate date, Commune commune) {
         this.name = p.getName();
         this.commune = commune;
         this.infectionGrowth = p.getInfectionPressure();
-        this.contaminationStart = LocalDate.parse(p.getContaminationStart(), DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+        this.contaminationStart = date;
     }
 
     public Parish(int id, String name, Commune commune, int infectionGrowth, LocalDate contaminationStart) {

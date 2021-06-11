@@ -12,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 @RestController
@@ -32,7 +34,9 @@ public class ParishRestController {
     public ResponseEntity<String> create(@RequestBody @Validated ParishDto pDto) {
         Optional<Commune> commune = communeRepository.findById(pDto.getCommuneId());
         if (commune.isPresent()) {
-            Parish p = parishRepository.save(new Parish(pDto, commune.get()));
+            LocalDate date = LocalDate.parse(pDto.getContaminationStart(), DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+            Parish p = new Parish(pDto, date, commune.get());
+            parishRepository.save(p);
             return ResponseEntity.status(HttpStatus.CREATED).body("{'msg' : 'created id' " + p.getId() + "}");
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{'msg' : 'commune_id " + pDto.getCommuneId() + " not found'}");
