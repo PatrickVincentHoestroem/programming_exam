@@ -1,45 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
-<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link ret="stylesheet" href="../static/default.css">
+    <link rel="stylesheet" href="default.css">
+    <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
 </head>
 <body>
     <div>
         <h1>Sogne</h1>
     </div>
     <div>
-        <table class="main_table" th:if="${parishes.size()>0}">
-            <tr th:each="parish : ${parishes}">
-                <th><input type="checkbox"></th>
-                <th th:text="'Lukkede ned:' + ${parish.getContaminationStart()}"></th>
-                <th th:text="${parish.getName()}"></th>
-                <th th:text="${parish.getCommune().getName()}"></th>
-                <th>
-                        <button>
-                            <i>Opdater</i>
-                        </button>
-                </th>
-                <th><button>Fjern</button></th>
-            </tr>
-            <th><input value="Tilføj" type="button" onclick="buttonclickhandler()"></th>
+        <table id="main_table">
+            <thead>
+                <tr>
+                    <th class="headers" style="width: 40px;">Luk</th>
+                    <th class="headers">Lukkede d.</th>
+                    <th class="headers">Sogn</th>
+                    <th class="headers">Kommune</th>
+                </tr>
+            </thead>
+            <tbody id="main_table_body"></tbody>
+            <tfoot>
+                <th colspan="4"><input style="width: 100%" value="Tilføj" type="button"/>
+            </tfoot>
         </table>
     </div>
-    <script>
-        function buttonclickhandler() {
-            const request = new XMLHttpRequest();
-            request.open("GET", "http://localhost:8080/parishes/getAll");
-            request.onreadystatechange = function() {
-                if ((request.readyState===4) && (request.status===200)) {
-                    alert(request.responseText)
-                    console.log(request);
-                    document.writeln(request.responseText)
+    </body>
+<script>
+    refreshTable()
+
+    function refreshTable() {
+            let table = $('#main_table_body')
+            $.ajax({
+                type: 'GET',
+                url: 'parishes/getAll',
+                success: data => {
+                    $.each(data, (index, json) => {
+                        table.append(
+                            '<tr>' +
+                            '<th style="text-align: center"><input onclick="contaminate()" type="checkbox"></th>' +
+                            '<th>' + json["contaminationStart"] + '</th>' +
+                            '<th>' + json["name"] + '</th>' +
+                            '<th>' + json["commune"]["name"] + '</th>' +
+                            '<th><button onclick="updateItem()"><i>Opdater</i></button></th>' +
+                            '<th><button onclick="removeItem()">Fjern</button></th>' +
+                            '</tr>'
+                        )
+                    })
                 }
-            }
-            request.send();
+            })
         }
-    </script>
-</body>
+    function updateItem() {
+
+        }
+    function insertItem() {
+
+        }
+    function removeItem() {
+
+        }
+    function contaminate() {
+
+    }
+    function decontaminate() {
+
+    }
+    function buttonclickhandler() {
+        const request = new XMLHttpRequest();
+        request.open("GET", "http://localhost:8080/parishes/getAll");
+        request.onreadystatechange = function() {
+            if ((request.readyState===4) && (request.status===200)) {
+                alert(request.responseText)
+                console.log(request);
+                //document.writeln(request.responseText)
+            }
+        }
+        request.send();
+    }
+</script>
 </html>

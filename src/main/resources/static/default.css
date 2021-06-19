@@ -1,4 +1,20 @@
-.main_table{
+table, th, td {
     text-align: left;
-    border: black;
+    border: 1px solid black;
+    font-family: Arial;
+    font-size: 12px;
+}
+
+table {
+    width: 700px;
+    border-collapse: collapse;
+}
+
+.headers {
+    text-align: center;
+    font-size: 16px;
+}
+
+button {
+    width: 100%;
 }
